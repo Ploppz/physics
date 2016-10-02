@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::process::exit;
 use glium;
-use geometry::vec::vec;
+use geometry::vec::Vec2;
 
 pub mod line;
 
@@ -85,5 +85,5 @@ impl<Vertex> BufferCollection<Vertex> where Vertex: Copy {
 
 
 pub trait Renderer {
-    fn render(&mut self, target: &mut glium::Frame, center: vec, width: u32, height: u32, zoom: f64);
+    fn render(&mut self, target: &mut glium::Frame, center: Vec2, width: u32, height: u32, zoom: f64);
 }

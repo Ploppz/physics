@@ -1,7 +1,7 @@
 
 use graphics::renderer::BufferCollection;
 use graphics::renderer::Renderer;
-use geometry::vec::vec;
+use geometry::vec::Vec2;
 use geometry::polygon::Polygon;
 
 

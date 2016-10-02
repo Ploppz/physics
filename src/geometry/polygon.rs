@@ -1,19 +1,19 @@
 use std::vec::Vec;
 use core::iter::Iterator;
-use geometry::vec::vec;
+use geometry::vec::Vec2;
 
 pub struct Polygon {
-    vertices: Vec<vec>,
+    vertices: Vec<Vec2>,
 
-    translation: vec,
+    translation: Vec2,
     orientation: f64,
 }
 
 impl Polygon {
-    pub fn new(vertices: Vec<vec>) -> Polygon {
+    pub fn new(vertices: Vec<Vec2>) -> Polygon {
         Polygon {
             vertices: vertices,
-            translation: vec::new(0.0, 0.0),
+            translation: Vec2::new(0.0, 0.0),
             orientation: 0.0,
         }
     }
@@ -22,29 +22,29 @@ impl Polygon {
         self.vertices.len() as i32
     }
 
-    pub fn model_vertex(&self, index: i32) -> vec {
+    pub fn model_vertex(&self, index: i32) -> Vec2 {
         let new_index = ((index + self.num_vertices()) % self.num_vertices()) as usize;
         self.vertices[new_index]
     }
 
-    pub fn world_vertex(&self, index: i32) -> vec {
+    pub fn world_vertex(&self, index: i32) -> Vec2 {
         self.transform(self.model_vertex(index))
     }
 
-    pub fn transform(&self, model_vec: vec) -> vec {
+    pub fn transform(&self, model_vec: Vec2) -> Vec2 {
         let c = self.orientation.cos();
         let s = self.orientation.sin();
-        vec {
+        Vec2 {
             x:   c*model_vec.x + s*model_vec.y + self.translation.x,
             y: - s*model_vec.x + c*model_vec.y + self.translation.y,
         }
     }
 
-    pub fn detransform(&self, mut world_vec: vec) -> vec {
+    pub fn detransform(&self, mut world_vec: Vec2) -> Vec2 {
         world_vec -= self.translation;
         let c = self.orientation.cos();
         let s = self.orientation.sin();
-        vec {
+        Vec2 {
             x:   c*world_vec.x + s*world_vec.y,
             y: - s*world_vec.x + c*world_vec.y,
         }
@@ -65,8 +65,8 @@ impl Polygon {
 pub struct EdgeIterator<'a> {
     polygon: &'a Polygon,
     index: i32,                 // index of the *end* of the edge
-    start: vec,
-    end: vec,
+    start: Vec2,
+    end: Vec2,
     transformed: bool,          // Temporary solution
 }
 
@@ -117,11 +117,11 @@ impl<'a> Iterator for EdgeIterator<'a> {
 
 pub struct Edge { // almost the same as EdgeIterator
     index: i32,
-    start: vec,
-    end: vec,
+    start: Vec2,
+    end: Vec2,
 }
 impl Edge {
     pub fn get_index(&self) -> i32 { self.index }
-    pub fn get_start(&self) -> vec { self.start}
-    pub fn get_end(&self) -> vec { self.end}
+    pub fn get_start(&self) -> Vec2 { self.start}
+    pub fn get_end(&self) -> Vec2 { self.end}
 }

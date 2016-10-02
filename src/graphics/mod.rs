@@ -5,7 +5,7 @@ use glium;
 use glium::{ Surface, Display };
 
 use geometry::polygon::Polygon;
-use geometry::vec::vec;
+use geometry::vec::Vec2;
 use graphics::renderer::Renderer;
 use graphics::renderer::line::LineRenderer;
 
@@ -24,7 +24,7 @@ impl<'a> Graphics<'a> {
         }
     }
     /// Renders all buffers, clears all 'default' buffers
-    pub fn render(&mut self, center: vec, width: u32, height: u32, zoom: f64) {
+    pub fn render(&mut self, center: Vec2, width: u32, height: u32, zoom: f64) {
         let mut target = self.display.draw();        // target: glium::Frame
         target.clear_color(0.0, 0.0, 0.0, 1.0);
 

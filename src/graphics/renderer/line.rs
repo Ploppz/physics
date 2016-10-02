@@ -7,7 +7,7 @@ use graphics;
 use graphics::Color;
 use graphics::renderer::BufferCollection;
 use graphics::renderer::Renderer;
-use geometry::vec::vec;
+use geometry::vec::Vec2;
 use geometry::polygon::Polygon;
 
 
@@ -57,7 +57,7 @@ impl<'a> LineRenderer<'a> {
         self.buffers.clear_buffer();
     }
 
-    pub fn draw_line(&mut self, start: vec, end: vec) {
+    pub fn draw_line(&mut self, start: Vec2, end: Vec2) {
         self.buffers.push(Vertex {
             position: [start.x as f32, start.y as f32],
             color: [self.color.r, self.color.g, self.color.b],
@@ -70,7 +70,7 @@ impl<'a> LineRenderer<'a> {
 
 }
 impl<'a> Renderer for LineRenderer<'a> {
-    fn render(&mut self, target: &mut glium::Frame, center: vec, width: u32, height: u32, zoom: f64) {
+    fn render(&mut self, target: &mut glium::Frame, center: Vec2, width: u32, height: u32, zoom: f64) {
         let uniforms = uniform! {
             proj: graphics::proj_matrix(width as f64, height as f64, 0.0, 1.0),
             view: graphics::view_matrix(center.x, center.y, zoom, zoom),

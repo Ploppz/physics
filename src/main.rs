@@ -7,7 +7,7 @@ use rand::Rng;
 use std::{ f64, thread, time };
 use std::vec::Vec;
 use geometry::polygon::Polygon;
-use geometry::vec::vec;
+use geometry::vec::Vec2;
 use glium::{ DisplayBuild, glutin };
 use glium::glutin::{Event, MouseScrollDelta, ElementState, MouseButton, WindowBuilder};
 use glium::backend::glutin_backend::GlutinFacade;
@@ -25,14 +25,15 @@ fn main() {
 
 struct Main {
     zoom: f64,
-    center: vec,
+    center: Vec2,
     mouse_down: bool,
-    mouse_pos: vec,
-    mouse_pos_past: vec,
+    mouse_pos: Vec2,
+    mouse_pos_past: Vec2,
 }
 
 impl Main {
     fn run(&mut self) {
+        let pqr : Polygon;
         let p = make_polygon(5, 20.0, 50.0);
 
         let display = glutin::WindowBuilder::new().build_glium().unwrap();
@@ -65,7 +66,7 @@ impl Main {
     }
     fn mouse_moved(&mut self, display: &GlutinFacade , x: i32, y: i32) {
         self.mouse_pos_past = self.mouse_pos;
-        self.mouse_pos = vec::new(x as f64, y as f64);
+        self.mouse_pos = Vec2::new(x as f64, y as f64);
         // Move the texture //
         if self.mouse_down {
             let window_size = display.get_window().unwrap().get_inner_size().unwrap();
@@ -97,10 +98,10 @@ impl Main {
     fn new() -> Main {
         Main {
             zoom: 1.0,
-            center: vec::new(0.0, 0.0),
+            center: Vec2::new(0.0, 0.0),
             mouse_down: false,
-            mouse_pos: vec::new(0.0, 0.0),
-            mouse_pos_past: vec::new(0.0, 0.0),
+            mouse_pos: Vec2::new(0.0, 0.0),
+            mouse_pos_past: Vec2::new(0.0, 0.0),
         }
     }
 }
@@ -114,7 +115,7 @@ fn make_polygon(num_edges: i32, inner_size: f64, outer_size: f64) -> Polygon {
         let random_size = rng.gen::<f64>();
         let x = f64::cos(angle) * (inner_size + outer_size * random_size);
         let y = f64::sin(angle) * (inner_size + outer_size * random_size);
-        vertices.push(vec::new(x, y));
+        vertices.push(Vec2::new(x, y));
     }
     Polygon::new(vertices)
 }
